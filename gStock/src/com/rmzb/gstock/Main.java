@@ -3,7 +3,7 @@ package com.rmzb.gstock;
 public final class Main {
 
 	public static void main(String[] args) {
-		System.out.println("gStock");
+		System.out.println("gStock Version : 0.1");
 	}
 
 }
