@@ -5,72 +5,37 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-/**
- * 
- * @author Ramzi
- *
- */
-
 public final class ConnectionHandler {
 
 	/**
 	 * 
 	 */
 	private static final String DERBY_DRIVER = "org.apache.derby.jdbc.EmbeddedDriver";
-
+	
 	/**
 	 * 
 	 */
-	private Connection con = null;
-
+	private Connection connection = null;
+	
 	/**
 	 * 
-	 */
-	private File db;
-
-	/**
-	 * 
-	 * @param dir
+	 * @param folder
 	 * @param create
-	 * @param username
-	 * @param password
-	 * @throws ClassNotFoundException
-	 * @throws SQLException
+	 * @throws ClassNotFoundException 
+	 * @throws SQLException 
 	 */
-	public ConnectionHandler(File dir, boolean create, String username,
-			String password) throws ClassNotFoundException, SQLException {
-		if (dir == null) {
-			throw new IllegalArgumentException("Directory must not be null");
+	public ConnectionHandler(Folder folder, boolean create) throws ClassNotFoundException, SQLException {
+		if(folder == null) {
+			throw new IllegalArgumentException("Folder can't not be null");
 		}
 		
-		this.db = dir;
-
 		StringBuilder url = new StringBuilder();
 		url.append("jdbc:derby:");
-		url.append(db.getAbsolutePath());
+		url.append(folder.getLocation() + File.separator +folder.getName());
 		url.append(";create=");
 		url.append(create);
-		if (username != null && password != null) {
-			url.append(";username=");
-			url.append(username);
-			url.append(";password=");
-			url.append(password);
-		}
-
 		Class.forName(DERBY_DRIVER);
-		this.con = DriverManager.getConnection(url.toString());
-	}
-
-	/**
-	 * 
-	 * @param dir
-	 * @param create
-	 * @throws ClassNotFoundException
-	 * @throws SQLException
-	 */
-	public ConnectionHandler(File dir, boolean create)
-			throws ClassNotFoundException, SQLException {
-		this(dir, create, null, null);
+		this.connection = DriverManager.getConnection(DERBY_DRIVER);
 	}
 
 	/**
@@ -78,7 +43,7 @@ public final class ConnectionHandler {
 	 * @return
 	 */
 	public Connection getConnection() {
-		return con;
+		return connection;
 	}
-
+	
 }
