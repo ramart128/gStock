@@ -35,11 +35,16 @@ public final class Folder {
 			throw new IllegalArgumentException("Folder can't be null");
 		}
 
+		if (dir.isFile()) {
+			throw new IllegalArgumentException("Folder can't be file");
+		}
+
+		ConnectionHandler cHandler = new ConnectionHandler(this, create);
+
 		this.name = dir.getName();
 		this.location = dir.getAbsolutePath();
 
-		ConnectionHandler cHandler = new ConnectionHandler(this, create);
-		connection = cHandler.getConnection();
+		this.connection = cHandler.getConnection();
 	}
 
 	/**
